@@ -73,7 +73,7 @@ public class UserController {
     @ApiOperation(value = "根据用户名搜索用户", notes = "根据用户名搜索用户")
     public List<User> searchUsers(String username, HttpServletRequest request) {
         // 仅管理员可以查看
-        if (isNotAdmin(request)) {
+        if (!isAdmin(request)) {
             return Collections.emptyList();
         }
 
@@ -84,7 +84,7 @@ public class UserController {
     @ApiOperation(value = "删除用户", notes = "删除用户")
     public Boolean deleteUser(@RequestBody Long id, HttpServletRequest request) {
         // 仅管理员可以删除
-        if (isNotAdmin(request)) {
+        if (!isAdmin(request)) {
             return false;
         }
 
@@ -102,7 +102,7 @@ public class UserController {
      * @param request HttpServletRequest
      * @return 是 返回 true， 否则返回 false
      */
-    private boolean isNotAdmin(HttpServletRequest request) {
+    private boolean isAdmin(HttpServletRequest request) {
         Object userObj = request.getSession().getAttribute(UserConsist.USER_LOGIN_STATE);
 
         if (ObjectUtil.isNotEmpty(userObj) && userObj instanceof User) {
