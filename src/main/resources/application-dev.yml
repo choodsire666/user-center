@@ -1,8 +1,6 @@
 spring:
   application:
     name: user-center
-  profiles:
-    active: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/chood?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
@@ -12,6 +10,22 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  mail:
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    username: 1609981289@qq.com
+    password: tdfywuizwggrhicb
+    port: 587
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: false
 
 server:
   port: 8081
@@ -23,22 +37,10 @@ server:
     session:
       timeout: 24h
 
-
-mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-  global-config:
-    db-config:
-      logic-delete-field: isDelete
-      logic-delete-value: 1
-      logic-not-delete-value: 0
-
-knife4j:
-  enable: true
-  openapi:
-    group:
-      user-center:
-        group-name: 用户中心
-        api-rule: package
-        api-rule-resources:
-          - com.chood.usercenter.controller
+upload:
+  model: local
+  local:
+    path: D:/chood/upload/
+    url: upload/
+    enable-proxy: true
+    proxy: /api/

@@ -1,6 +1,7 @@
 package com.chood.usercenter.service;
 
 import cn.hutool.core.util.ObjectUtil;
+import com.chood.usercenter.common.Result;
 import com.chood.usercenter.model.entity.User;
 import com.chood.usercenter.model.request.UserLoginRequest;
 import org.junit.jupiter.api.Assertions;
@@ -50,45 +51,45 @@ class UserServiceTest {
         String userPassword = "123456";
         String checkPassword = "";
 
-        long result = userService.userRegister(userAccount, userPassword, checkPassword);
-        Assertions.assertEquals(-1, result);
+        Result<Long> result = userService.userRegister(userAccount, userPassword, checkPassword);
+        Assertions.assertNotEquals(200, result.getCode());
 
         // 账号小于4位
         userAccount = "ch";
         checkPassword = "123456";
         result = userService.userRegister(userAccount, userPassword, checkPassword);
-        Assertions.assertEquals(-1, result);
+        Assertions.assertNotEquals(200, result.getCode());
 
         // 密码小于8位
         userAccount = "chood";
         result = userService.userRegister(userAccount, userPassword, checkPassword);
-        Assertions.assertEquals(-1, result);
+        Assertions.assertNotEquals(200, result.getCode());
 
         // 特殊字符
         userAccount = "ch ood";
         result = userService.userRegister(userAccount, userPassword, checkPassword);
-        Assertions.assertEquals(-1, result);
+        Assertions.assertNotEquals(200, result.getCode());
 
         // 两次密码不一致
         userAccount = "chood";
         userPassword = "12345678";
         checkPassword = "12345679";
         result = userService.userRegister(userAccount, userPassword, checkPassword);
-        Assertions.assertEquals(-1, result);
+        Assertions.assertNotEquals(200, result.getCode());
 
         // 账户已存在
         userAccount = "chood";
         userPassword = "12345678";
         checkPassword = "12345678";
         result = userService.userRegister(userAccount, userPassword, checkPassword);
-        Assertions.assertEquals(-1, result);
+        Assertions.assertNotEquals(200, result.getCode());
 
         // 成功
         userAccount = "choodsire666";
         userPassword = "12345678";
         checkPassword = "12345678";
         result = userService.userRegister(userAccount, userPassword, checkPassword);
-        Assertions.assertTrue(result > 0);
+        Assertions.assertEquals(200, result.getCode());
     }
 
     @Test
@@ -98,9 +99,10 @@ class UserServiceTest {
         userLoginRequest.setUserPassword("12345678");
 
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        assert requestAttributes != null;
         HttpServletRequest request = requestAttributes.getRequest();
         if (ObjectUtil.isNotEmpty(request)) {
-            User user = userService.doLogin(userLoginRequest.getUserAccount(), userLoginRequest.getUserPassword(), request);
+            Result<String> user = userService.doLogin(userLoginRequest.getUserAccount(), userLoginRequest.getUserPassword(), request);
             Assertions.assertNotNull(user);
         }
     }
