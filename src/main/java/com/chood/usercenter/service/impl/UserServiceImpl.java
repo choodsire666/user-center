@@ -50,10 +50,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      * @param userAccount   用户账号
      * @param userPassword  用户密码
      * @param checkPassword 确认密码
-     * @return 用户id, 失败返回 -1
      */
     @Override
-    public Result<Long> userRegister(String userAccount, String userPassword, String checkPassword) {
+    public Result<Void> userRegister(String userAccount, String userPassword, String checkPassword) {
         // 1.校验
         if (StringUtils.isAnyBlank(userAccount, userPassword, checkPassword)) {
             throw new BusinessException(ResultCode.PARAMS_ERROR, "参数为空!");
@@ -104,11 +103,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException(ResultCode.ERROR, "注册失败!");
         }
 
-        return Result.success(user.getId(), "注册成功!");
+        return Result.success("注册成功!");
     }
 
     @Override
-    public Result<String> doLogin(String userAccount, String userPassword, HttpServletRequest request) {
+    public Result<Void> doLogin(String userAccount, String userPassword, HttpServletRequest request) {
         // 1.校验
         if (StringUtils.isAnyBlank(userAccount, userPassword)) {
             throw new BusinessException(ResultCode.PARAMS_ERROR, "账号或密码为空!");
@@ -278,7 +277,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
      * @param resetPasswordRequest 重置密码请求实体
      */
     @Override
-    public Result<String> resetPassword(ResetPasswordRequest resetPasswordRequest) {
+    public Result<Void> resetPassword(ResetPasswordRequest resetPasswordRequest) {
         if (ObjectUtil.isEmpty(resetPasswordRequest)) {
             throw new BusinessException(ResultCode.PARAMS_ERROR);
         }

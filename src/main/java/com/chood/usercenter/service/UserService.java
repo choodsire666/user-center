@@ -24,9 +24,8 @@ public interface UserService extends IService<User> {
      * @param userAccount   用户账号
      * @param userPassword  用户密码
      * @param checkPassword 确认密码
-     * @return 注册成功返回用户id，失败返回 0
      */
-    Result<Long> userRegister(String userAccount, String userPassword, String checkPassword);
+    Result<Void> userRegister(String userAccount, String userPassword, String checkPassword);
 
     /**
      * 用户登录
@@ -35,7 +34,7 @@ public interface UserService extends IService<User> {
      * @param userPassword 用户密码
      * @return 登录成功返回用户信息，失败返回 null
      */
-    Result<String> doLogin(String userAccount, String userPassword, HttpServletRequest request);
+    Result<Void> doLogin(String userAccount, String userPassword, HttpServletRequest request);
 
     /**
      * 搜索用户
@@ -68,5 +67,5 @@ public interface UserService extends IService<User> {
      *
      * @param resetPasswordRequest 重置密码请求实体
      */
-    Result<String> resetPassword(ResetPasswordRequest resetPasswordRequest);
+    Result<Void> resetPassword(ResetPasswordRequest resetPasswordRequest);
 }

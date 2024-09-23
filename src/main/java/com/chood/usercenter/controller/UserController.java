@@ -44,7 +44,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @ApiOperation(value = "用户注册", notes = "用户注册")
-    public Result<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
+    public Result<Void> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
         if (userRegisterRequest == null) {
             throw new BusinessException(ResultCode.PARAMS_ERROR);
         }
@@ -61,7 +61,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登录", notes = "用户登录")
-    public Result<String> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
+    public Result<Void> userLogin(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request) {
         if (userLoginRequest == null) {
             throw new BusinessException(ResultCode.PARAMS_ERROR);
         }
@@ -78,7 +78,7 @@ public class UserController {
 
     @PostMapping("/logout")
     @ApiOperation(value = "用户退出登录", notes = "用户退出登录")
-    public Result<String> userLogout(HttpServletRequest request) {
+    public Result<Void> userLogout(HttpServletRequest request) {
         if (request == null) {
             throw new BusinessException(ResultCode.ERROR);
         }
@@ -114,7 +114,7 @@ public class UserController {
 
     @PostMapping("/edit")
     @ApiOperation(value = "编辑用户", notes = "编辑用户")
-    public Result<String> editUser(@RequestBody UserEditRequest userEditRequest, HttpServletRequest request) {
+    public Result<Void> editUser(@RequestBody UserEditRequest userEditRequest, HttpServletRequest request) {
         // 仅管理员可以删除
         if (!isAdmin(request)) {
             throw new BusinessException(ResultCode.NO_AUTH, "仅管理员可删除!");
@@ -136,7 +136,7 @@ public class UserController {
 
     @PostMapping("/delete/{id}")
     @ApiOperation(value = "删除用户", notes = "删除用户")
-    public Result<String> deleteUser(@PathVariable(value = "id") Long id, HttpServletRequest request) {
+    public Result<Void> deleteUser(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         // 仅管理员可以删除
         if (!isAdmin(request)) {
             throw new BusinessException(ResultCode.NO_AUTH, "仅管理员可删除!");
@@ -166,7 +166,7 @@ public class UserController {
 
     @GetMapping("/verifyCode")
     @ApiOperation(value = "验证", notes = "验证")
-    public Result<String> verifyCode(String code, HttpSession session) {
+    public Result<Void> verifyCode(String code, HttpSession session) {
         String target = (String) session.getAttribute(CaptchConsist.CAPTCHA_CODE);
         boolean verify = new RandomGenerator(RandomUtil.BASE_NUMBER, 6).verify(target, code);
         if (verify) {
@@ -179,7 +179,7 @@ public class UserController {
 
     @PostMapping("/resetPassword")
     @ApiOperation(value = "重置密码", notes = "重置密码")
-    public Result<String> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
+    public Result<Void> resetPassword(@RequestBody ResetPasswordRequest resetPasswordRequest) {
         if (ObjectUtil.isEmpty(resetPasswordRequest)) {
             throw new BusinessException(ResultCode.PARAMS_ERROR);
         }

@@ -51,7 +51,7 @@ class UserServiceTest {
         String userPassword = "123456";
         String checkPassword = "";
 
-        Result<Long> result = userService.userRegister(userAccount, userPassword, checkPassword);
+        Result<Void> result = userService.userRegister(userAccount, userPassword, checkPassword);
         Assertions.assertNotEquals(200, result.getCode());
 
         // 账号小于4位
@@ -102,7 +102,7 @@ class UserServiceTest {
         assert requestAttributes != null;
         HttpServletRequest request = requestAttributes.getRequest();
         if (ObjectUtil.isNotEmpty(request)) {
-            Result<String> user = userService.doLogin(userLoginRequest.getUserAccount(), userLoginRequest.getUserPassword(), request);
+            Result<Void> user = userService.doLogin(userLoginRequest.getUserAccount(), userLoginRequest.getUserPassword(), request);
             Assertions.assertNotNull(user);
         }
     }
